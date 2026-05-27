@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificate Download Test</title>
+</head>
+<body>
+    <h2>Certificate Download Test</h2>
+
+    <div>
+        <label>Worker Token:</label><br>
+        <textarea id="token" rows="4" cols="80" 
+            placeholder="Paste your worker token here"></textarea>
+    </div>
+    <br>
+    <button onclick="downloadCert()">Download Certificate</button>
+    <br><br>
+    <div id="status"></div>
+
+    <script>
+        async function downloadCert() {
+            const token = document.getElementById('token').value.trim();
+            
+            if (!token) {
+                alert('Please paste your token first!');
+                return;
+            }
+
+            document.getElementById('status').innerText = 'Downloading...';
+
+            try {
+                const response = await fetch(
+                    'http://localhost:8000/certificates/download/1',
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    const error = await response.text();
+                    document.getElementById('status').innerText = 
+                        'Error: ' + error;
+                    return;
+                }
+
+                // Download the PDF
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'safety_certificate.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                document.getElementById('status').innerText = 
+                    '✅ Certificate downloaded successfully!';
+
+            } catch (err) {
+                document.getElementById('status').innerText = 
+                    'Error: ' + err.message;
+            }
+        }
+    </script>
+</body>
+</html>

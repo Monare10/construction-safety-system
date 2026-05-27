@@ -1,0 +1,29 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/app/__pycache__/
+backend/app/routers/__pycache__/
+backend/app/models/__pycache__/
+backend/app/schemas/__pycache__/
+backend/app/utils/__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Environment variables — NEVER upload this
+backend/.env
+
+# Node
+frontend/node_modules/
+
+# Build files
+frontend/build/
+
+# VS Code
+.vscode/
+
+# Test files
+backend/seed.py
+backend/create_admin.py
+backend/update_video.py
+backend/test_download.html

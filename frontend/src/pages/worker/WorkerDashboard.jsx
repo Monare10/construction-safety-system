@@ -12,7 +12,6 @@ import {
   Alert
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PendingIcon from '@mui/icons-material/Pending';
 import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import { useAuth } from '../../context/AuthContext';

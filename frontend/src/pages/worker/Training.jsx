@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   Container, Typography, Box, Card, CardContent,
-  Button, Chip, LinearProgress, Alert, Divider
+  Button, Chip, LinearProgress, Alert
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';

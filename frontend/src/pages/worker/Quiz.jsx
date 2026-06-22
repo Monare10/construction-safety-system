@@ -25,9 +25,9 @@ const Quiz = () => {
   useEffect(() => {
     getQuiz(programId)
       .then((res) => setQuiz(res.data))
-      .catch((err) => setError(
-        err.response?.data?.detail || 'Could not load quiz'
-      ))
+      .catch((err) =>
+        setError(err.response?.data?.detail || 'Could not load quiz')
+      )
       .finally(() => setLoading(false));
   }, [programId]);
 
@@ -43,13 +43,13 @@ const Quiz = () => {
     if (timeLeft === null || result) return;
 
     if (timeLeft === 0) {
-      handleSubmit(); // Auto-submit when time runs out
+      handleSubmit();
       return;
     }
 
     const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
     return () => clearTimeout(timer);
-  }, [timeLeft, result]);
+  }, [timeLeft, result, handleSubmit]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async () => {
     if (Object.keys(answers).length < quiz.questions.length) {
@@ -87,45 +87,60 @@ const Quiz = () => {
           ← Back to Dashboard
         </Button>
 
-        <Typography variant="h4" fontWeight="bold" color="#1A1A2E" sx={{ mb: 1 }}>
+        <Typography
+          variant="h4"
+          fontWeight="bold"
+          color="#1A1A2E"
+          sx={{ mb: 1 }}
+        >
           {quiz?.title}
         </Typography>
 
-        {/* UPDATED HEADER WITH TIMER */}
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 3
-        }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mb: 3
+          }}
+        >
           <Typography variant="body2" color="text.secondary">
             Questions: {quiz?.questions.length} | Pass mark: 70%
           </Typography>
 
           {timeLeft !== null && (
-            <Box sx={{
-              backgroundColor: timeLeft < 60 ? '#c62828' : '#E8660A',
-              color: 'white',
-              px: 2,
-              py: 0.5,
-              borderRadius: 2,
-              fontWeight: 'bold',
-              fontSize: 16
-            }}>
+            <Box
+              sx={{
+                backgroundColor: timeLeft < 60 ? '#c62828' : '#E8660A',
+                color: 'white',
+                px: 2,
+                py: 0.5,
+                borderRadius: 2,
+                fontWeight: 'bold',
+                fontSize: 16
+              }}
+            >
               ⏱ {Math.floor(timeLeft / 60)}:
               {String(timeLeft % 60).padStart(2, '0')}
             </Box>
           )}
         </Box>
 
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
         {result ? (
           <Card elevation={3} sx={{ borderRadius: 3, textAlign: 'center', p: 3 }}>
-            <Typography variant="h3" sx={{
-              color: result.passed ? 'green' : 'red',
-              fontWeight: 'bold'
-            }}>
+            <Typography
+              variant="h3"
+              sx={{
+                color: result.passed ? 'green' : 'red',
+                fontWeight: 'bold'
+              }}
+            >
               {result.score}%
             </Typography>
 
@@ -147,7 +162,9 @@ const Quiz = () => {
             {result.passed ? (
               <Button
                 variant="contained"
-                onClick={() => navigate(`/worker/certificate/${programId}`)}
+                onClick={() =>
+                  navigate(`/worker/certificate/${programId}`)
+                }
                 sx={{
                   backgroundColor: '#E8660A',
                   '&:hover': { backgroundColor: '#c55a09' }
@@ -168,36 +185,52 @@ const Quiz = () => {
         ) : (
           <>
             {quiz?.questions.map((question, index) => (
-              <Card key={question.id} elevation={2} sx={{ mb: 3, borderRadius: 3 }}>
+              <Card
+                key={question.id}
+                elevation={2}
+                sx={{ mb: 3, borderRadius: 3 }}
+              >
                 <CardContent>
-                  <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+                  <Typography
+                    variant="h6"
+                    fontWeight="bold"
+                    sx={{ mb: 2 }}
+                  >
                     {index + 1}. {question.question_text}
                   </Typography>
 
                   <FormControl component="fieldset" fullWidth>
                     <RadioGroup
                       value={answers[question.id] || ''}
-                      onChange={(e) => setAnswers({
-                        ...answers,
-                        [question.id]: e.target.value
-                      })}
+                      onChange={(e) =>
+                        setAnswers({
+                          ...answers,
+                          [question.id]: e.target.value
+                        })
+                      }
                     >
                       {['a', 'b', 'c', 'd'].map((opt) => (
                         <FormControlLabel
                           key={opt}
                           value={opt}
                           control={
-                            <Radio sx={{
-                              '&.Mui-checked': { color: '#E8660A' }
-                            }} />
+                            <Radio
+                              sx={{
+                                '&.Mui-checked': { color: '#E8660A' }
+                              }}
+                            />
                           }
-                          label={`${opt.toUpperCase()}. ${question[`option_${opt}`]}`}
+                          label={`${opt.toUpperCase()}. ${
+                            question[`option_${opt}`]
+                          }`}
                           sx={{
                             mb: 1,
                             p: 1,
                             borderRadius: 2,
                             backgroundColor:
-                              answers[question.id] === opt ? '#fff3e0' : 'transparent'
+                              answers[question.id] === opt
+                                ? '#fff3e0'
+                                : 'transparent'
                           }}
                         />
                       ))}
@@ -207,7 +240,9 @@ const Quiz = () => {
               </Card>
             ))}
 
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+            <Box
+              sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}
+            >
               <Button
                 variant="contained"
                 size="large"

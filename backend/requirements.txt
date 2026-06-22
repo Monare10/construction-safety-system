@@ -9,3 +9,4 @@ pydantic[email]==2.7.1
 reportlab==4.2.0
 python-multipart==0.0.9
 alembic==1.13.1
+gunicorn==21.2.0

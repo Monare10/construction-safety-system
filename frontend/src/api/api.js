@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-// Base URL for all API calls
 const API = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: 'https://construction-safety-system.onrender.com',
 });
 
 // Automatically attach JWT token to every request
@@ -60,5 +59,6 @@ export const getWorkerCompliance = (id) =>
   API.get(`/admin/workers/${id}/compliance`);
 export const updateEligibility = (id, data) =>
   API.patch(`/admin/workers/${id}/eligibility`, data);
+export const deleteWorker = (id) => API.delete(`/admin/workers/${id}`);
 export const getReports = () => API.get('/admin/reports');
 export const getAllCertificates = () => API.get('/admin/certificates');
